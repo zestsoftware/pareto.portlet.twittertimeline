@@ -1,0 +1,152 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2013-06-20 18:06+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: THijs <thijs@pareto.nl>\n"
+"Language-Team: Pareto <info@pareto.nl>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: pt\n"
+"Language-Name: Português\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: pareto.portlet.twittertimeline\n"
+
+#: ./twittertimelineportlet.py:152
+msgid "ARIA is an accessibility system that aids people using assistive technology interacting with dynamic web content. Read more about ARIA on W3C's website. If enabled, the embedded timeline uses the least obtrusive setting. If using an embedded timeline as a primary source of content on your page, you may wish to override this to the assertive setting."
+msgstr ""
+
+#: ./twittertimelineportlet.py:151
+msgid "ARIA politeness"
+msgstr ""
+
+#: ./twittertimelineportlet.py:143
+msgid "As per the Tweet and follow buttons, you may provide a comma-separated list of user screen names as suggested followers to a user after they reply, Retweet, or favorite a Tweet in the timeline. Use a data-related="benward,endform" attribute on the embed code."
+msgstr ""
+
+#: ./twittertimelineportlet.py:118
+msgid "Border color"
+msgstr ""
+
+#: ./twittertimelineportlet.py:119
+msgid "Change the border color used by the timeline. Takes an #abc123 hex format color e.g. "#cc0000""
+msgstr ""
+
+#: ./twittertimelineportlet.py:94
+msgid "Chrome"
+msgstr ""
+
+#: ./twittertimelineportlet.py:95
+msgid "Control the timeline layout and chrome by using the data-chrome="nofooter transparent" attribute on the embed code. Use a space-separated set of the following options:  noheader: Hides the timeline header. Please refer to the timeline display requirements when implementing your own header. nofooter: Hides the timeline footer and Tweet box, if included. noborders: Removes all borders within the timeline (between Tweets, cards, around the timeline.) See also: border-color. noscrollbar: Crops and hides the main timeline scrollbar, if visible. Please consider that hiding standard user interface components can affect the accessibility of your website. transparent: Removes the background color."
+msgstr ""
+
+#: ./twittertimelineportlet.py:49
+msgid "Create a timeline widget on https://twitter.com/settings/widgets/ (logged in with your account). Fill in the username, used for the creation of the Twitter Widget."
+msgstr ""
+
+#: ./twittertimelineportlet.py:176
+msgid "Details link"
+msgstr ""
+
+#: ./twittertimelineportlet.py:163
+msgid "Emulate portlet"
+msgstr ""
+
+#: ./twittertimelineportlet.py:57
+msgid "Fill in the data-timeline-id from the embed code of the Twitter Widget you have created for the username."
+msgstr ""
+
+#: ./twittertimelineportlet.py:88
+msgid "Height"
+msgstr ""
+
+#: ./twittertimelineportlet.py:164
+msgid "If enabled, the timeline is set as unobtrusive as possible and rendered in a portlet instead of the standard Twitter timeline."
+msgstr ""
+
+#: ./twittertimelineportlet.py:177
+msgid "If given, the header and footer will link to this URL."
+msgstr ""
+
+#: ./twittertimelineportlet.py:63
+msgid "Information"
+msgstr ""
+
+#: ./twittertimelineportlet.py:124
+msgid "Language"
+msgstr ""
+
+#: ./twittertimelineportlet.py:75
+msgid "Link color"
+msgstr ""
+
+#: ./twittertimelineportlet.py:171
+msgid "Portlet footer"
+msgstr ""
+
+#: ./twittertimelineportlet.py:42
+msgid "Portlet header"
+msgstr ""
+
+#: ./twittertimelineportlet.py:69
+msgid "Set by adding a "dark" attribute to the embed code."
+msgstr ""
+
+#: ./twittertimelineportlet.py:76
+msgid "Set by adding a data-link-color="#cc0000" attribute. Note that some icons in the timeline will also appear this color."
+msgstr ""
+
+#: ./twittertimelineportlet.py:89
+msgid "Set using the standard HTML height attribute on the embed code (units are pixels.)"
+msgstr ""
+
+#: ./twittertimelineportlet.py:83
+msgid "Set using the standard HTML width attribute on the embed code (units are pixels.)"
+msgstr ""
+
+#: ./twittertimelineportlet.py:64
+msgid "Short rich text area. Shows above the tweets."
+msgstr ""
+
+#: ./twittertimelineportlet.py:172
+msgid "Text to be shown in the footer"
+msgstr ""
+
+#: ./twittertimelineportlet.py:125
+msgid "The timeline language is detected from the page, based on the HTML lang attribute of your content. You can also set the HTML lang attribute on the embed code itself."
+msgstr ""
+
+#: ./twittertimelineportlet.py:68
+msgid "Theme"
+msgstr ""
+
+#: ./twittertimelineportlet.py:56
+msgid "Timeline ID"
+msgstr ""
+
+#: ./twittertimelineportlet.py:43
+msgid "Title of the rendered portlet. Only shows when emulate portlet is enabled."
+msgstr ""
+
+#: ./twittertimelineportlet.py:132
+msgid "To fix the size of a timeline to a preset number of Tweets, use the data-tweet-limit="5" attribute with any value between 1 and 20 Tweets. The timeline will render the specified number of Tweets from the timeline, expanding the height of the timeline to display all Tweets without scrolling. Since the timeline is of a fixed size, it will not poll for updates when using this option."
+msgstr ""
+
+#: ./twittertimelineportlet.py:131
+msgid "Tweet limit"
+msgstr ""
+
+#: ./twittertimelineportlet.py:48
+msgid "Username"
+msgstr ""
+
+#: ./twittertimelineportlet.py:142
+msgid "Web Intent Related Users"
+msgstr ""
+
+#: ./twittertimelineportlet.py:82
+msgid "Width"
+msgstr ""
+

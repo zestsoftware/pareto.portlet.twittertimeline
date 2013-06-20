@@ -65,20 +65,22 @@
     	 tal:condition="not:data/emulate_portlet">
         <tal:data_info condition="data_info"
                        replace="structure data_info"/>
-        <a class="twitter-timeline"
-           tal:attributes="href string:https://twitter.com/${data/username};
-                           data-widget-id data/timeline_id|nothing;
-                           data-link-color data/link_color|nothing;
-                           data-theme python:data_theme if data_theme != 'light' else None;
-                           width data/width|nothing;
-                           height data/height|nothing;
-                           data-chrome python:' '.join(data_chrome) if data_chrome else None;
-                           data-border-color data/border_color|nothing;
-                           lang data/lang|nothing;
-                           data-tweet-limit data/tweet_limit|nothing;
-                           data-related data/related|nothing; 
-                           data-aria-polite data/aria-polite|nothing;"
-           tal:content="string:Tweets by @${data/username}">twitterapi</a>
+        <p tal:omit-tag="not:data_info">
+            <a class="twitter-timeline"
+               tal:attributes="href string:https://twitter.com/${data/username};
+                               data-widget-id data/timeline_id|nothing;
+                               data-link-color data/link_color|nothing;
+                               data-theme python:data_theme if data_theme != 'light' else None;
+                               width data/width|nothing;
+                               height data/height|nothing;
+                               data-chrome python:' '.join(data_chrome) if data_chrome else None;
+                               data-border-color data/border_color|nothing;
+                               lang data/lang|nothing;
+                               data-tweet-limit data/tweet_limit|nothing;
+                               data-related data/related|nothing; 
+                               data-aria-polite data/aria-polite|nothing;"
+               tal:content="string:Tweets by @${data/username}">twitterapi</a>
+        </p>
     </div>
     <script tal:content="view/init_js"></script>
 
