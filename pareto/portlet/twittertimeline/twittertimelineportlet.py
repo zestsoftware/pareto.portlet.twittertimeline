@@ -128,12 +128,12 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
     tweet_limit = schema.TextLine(
         title=_(u"Tweet limit"),
         description=_(u"To fix the size of a timeline to a preset number of "
-            u"Tweets, use the data-tweet-limit="5" attribute with any value "
-            u"between 1 and 20 Tweets. The timeline will render the specified "
-            u"number of Tweets from the timeline, expanding the height of the "
-            u"timeline to display all Tweets without scrolling. Since the "
-            u"timeline is of a fixed size, it will not poll for updates when "
-            u"using this option."),
+            u"Tweets, set the tweet-limit with any number between 1 and 20 "
+            u"Tweets. The timeline will render the specified number of Tweets "
+            u"from the timeline, expanding the height of the timeline to "
+            u"display all Tweets without scrolling. Since the timeline is "
+            u"of a fixed size, it will not poll for updates when using this "
+            u"option."),
         required=False)
   
     related = schema.TextLine(
@@ -152,7 +152,6 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
             u"embedded timeline uses the least obtrusive setting. If using an "
             u"embedded timeline as a primary source of content on your page, "
             u"you may wish to override this to the assertive setting."),
-        # values=("polite", "assertive"),
         required=False,
         default=True)
   
@@ -174,34 +173,6 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
         description=_(u"If given, the header and footer "
             "will link to this URL."),
         required=False)
-
-
-    #    <a class="twitter-timeline" 
-    #       href="https://twitter.com/twitterapi" 
-    #       data-timeline-id="YOUR-WIDGET-ID-HERE" 
-    #       data-link-color="#cc0000"  
-    #       data-theme="dark" 
-    #       width="300" 
-    #       height="500" 
-    #       data-chrome="noheader nofooter noborders noscrollbar transparent"
-    #       data-border-color="#cc0000"
-    #       lang="EN" 
-    #       data-tweet-limit="3"
-    #       data-related="twitterapi,twitter" 
-    #       data-aria-polite="assertive">Tweets by @twitterapi</a>
-    # 
-    # 
-    #   data-timeline-id="YOUR-WIDGET-ID-HERE" 
-    #   data-link-color="#cc0000"  
-    #   data-theme="dark" 
-    #   width="300" 
-    #   height="500" 
-    #   data-chrome="noheader nofooter noborders noscrollbar transparent"
-    #   data-border-color="#cc0000"
-    #   lang="EN" 
-    #   data-tweet-limit="3"
-    #   data-related="twitterapi,twitter" 
-    #   data-aria-polite="polite"
 
 
 class Assignment(base.Assignment):
@@ -231,25 +202,11 @@ class Assignment(base.Assignment):
     footer = u""
     more_url = ''
 
-    def __init__(self, 
-        header = u"", 
-        info = u"", 
-        username = u"", 
-        timeline_id = u"", 
-        theme = u"", 
-        link_color = u"", 
-        width = u"", 
-        height = u"", 
-        chrome = [], 
-        border_color = u"", 
-        lang = u"", 
-        tweet_limit = u"", 
-        related = u"", 
-        aria_polite = True, 
-        emulate_portlet = False,
-        footer = u"",
-        more_url = '',
-        ):
+    def __init__(self, header = u"", info = u"", username = u"", 
+        timeline_id = u"", theme = u"", link_color = u"", width = u"", 
+        height = u"", chrome = [], border_color = u"", lang = u"", 
+        tweet_limit = u"", related = u"", aria_polite = True, 
+        emulate_portlet = False, footer = u"", more_url = ''):
 
         self.header = header
         self.info = info
@@ -278,12 +235,7 @@ class Assignment(base.Assignment):
 
 
 class Renderer(base.Renderer):
-    """Portlet renderer.
-
-    This is registered in configure.zcml. The referenced page template is
-    rendered, and the implicit variable 'view' will refer to an instance
-    of this class. Other methods can be added and referenced in the template.
-    """
+    """Portlet renderer. """
 
     render = ViewPageTemplateFile('twittertimelineportlet.pt')
 
@@ -335,12 +287,7 @@ class Renderer(base.Renderer):
 
 
 class AddForm(base.AddForm):
-    """Portlet add form.
-
-    This is registered in configure.zcml. The form_fields variable tells
-    zope.formlib which fields to display. The create() method actually
-    constructs the assignment that is being added.
-    """
+    """Portlet add form. """
     form_fields = form.Fields(ITwitterTimelinePortlet)
     form_fields['info'].custom_widget = WYSIWYGWidget
 
@@ -349,10 +296,6 @@ class AddForm(base.AddForm):
 
 
 class EditForm(base.EditForm):
-    """Portlet edit form.
-
-    This is registered with configure.zcml. The form_fields variable tells
-    zope.formlib which fields to display.
-    """
+    """Portlet edit form. """
     form_fields = form.Fields(ITwitterTimelinePortlet)
     form_fields['info'].custom_widget = WYSIWYGWidget
