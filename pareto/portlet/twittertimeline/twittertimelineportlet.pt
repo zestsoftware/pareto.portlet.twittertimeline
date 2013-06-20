@@ -1,22 +1,33 @@
 <tal:timeline define="data view/data;
                       data_chrome data/chrome|python:[];
-                      data_theme data/theme|nothing;"
+                      data_theme data/theme|nothing;
+                      data_info data/transformed|nothing"
               i18n:domain="pareto.portlet.twittertimeline">
     <dl class="portlet portletTwitterTimelinePortlet"
         tal:condition="data/emulate_portlet">
     
-        <dt class="portletHeader">
+        <dt class="portletHeader"
+            tal:define="header view/data/header"
+            tal:attributes="class python:header and 'portletHeader' or 'portletHeader titleless'">
             <span class="portletTopLeft"></span>
-            <tal:header content="data/header"/>
+            <span>
+               <a class="tile"
+                  tal:condition="header"
+                  tal:omit-tag="not:view/has_link"
+                  tal:attributes="href view/data/more_url"
+                  tal:content="header"
+                  />
+            </span>
             <span class="portletTopRight"></span>
         </dt>
     
         <dd class="portletItem odd"
-            tal:condition="data/info"
-            tal:content="structure data/info">    
+            tal:condition="data_info"
+            tal:content="structure data_info">    
         </dd>
     
-        <dd class="portletItem even">
+        <dd class="portletItem even"
+            tal:attributes="class python:'portletItem %s' % ('even' if data_info else 'odd',)">
             <a class="twitter-timeline"
                tal:attributes="href string:https://twitter.com/${data/username};
                                data-widget-id data/timeline_id|nothing;
@@ -31,16 +42,29 @@
                                data-related data/related|nothing; 
                                data-aria-polite data/aria-polite|nothing;"
                tal:content="string:Tweets by @${data/username}">twitterapi</a>
-        </dd>
-
-        <dd class="portletFooter">
+        <tal:corners condition="not:view/has_footer">
             <span class="portletBottomLeft"></span>
             <span class="portletBottomRight"></span>
-        </dd>
+        </tal:corners>
+    </dd>
+    
+    <dd class="portletFooter" tal:condition="view/has_footer">
+        <span class="portletBottomLeft"></span>
+        <span>
+           <a class="tile"
+              tal:omit-tag="not:view/has_link"
+              tal:attributes="href view/data/more_url"
+              tal:content="view/data/footer"
+              />
+        </span>
+        <span class="portletBottomRight"></span>
+    </dd>
 
     </dl>
     <div id="portletTwitterTimeline"
     	 tal:condition="not:data/emulate_portlet">
+        <tal:data_info condition="data_info"
+                       content="structure data_info"/>
         <a class="twitter-timeline"
            tal:attributes="href string:https://twitter.com/${data/username};
                            data-widget-id data/timeline_id|nothing;

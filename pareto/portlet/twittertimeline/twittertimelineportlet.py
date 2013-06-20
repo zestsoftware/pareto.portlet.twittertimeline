@@ -44,21 +44,25 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
             u"emulate portlet is enabled."),
         required=True)
  
-    info = schema.Text(
-        title=_(u"Information"),
-        description=_(u"Short rich text area. Only shows when emulate portlet "
-            u"is enabled."),
-        required=False)
-  
     username = schema.TextLine(
         title=_(u"Username"),
-        description=_(u""),
+        description=_(u"On https://twitter.com/settings/widgets/, logged in "
+                      u"with your account create a timeline widget. "
+                      u"Fill in the username used for the creation of the "
+                      u"Twitter Widget."),
         required=True)
   
     timeline_id = schema.TextLine(
         title=_(u"Timeline ID"),
-        description=_(u""),
+        description=_(u"Fill in the data-timeline-id from the embed code of "
+                      u"the Twitter Widget you have created for the username."
+                      ),
         required=True)
+  
+    info = schema.Text(
+        title=_(u"Information"),
+        description=_(u"Short rich text area. Shows above the tweets."),
+        required=False)
   
     theme = schema.Choice(
         title=_(u"Theme"),
@@ -91,19 +95,19 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
         description=_(u'Control the timeline layout and chrome by using the '
             u'data-chrome="nofooter transparent" attribute on the embed code. '
             u'Use a space-separated set of the following options: '
-            u''
+            u' '
             u'noheader: Hides the timeline header. Please refer to the '
             u'timeline display requirements when implementing your own header.'
-            u''
+            u' '
             u'nofooter: Hides the timeline footer and Tweet box, if included.'
-            u''
+            u' '
             u'noborders: Removes all borders within the timeline (between '
             u'Tweets, cards, around the timeline.) See also: border-color.'
-            u''
+            u' '
             u'noscrollbar: Crops and hides the main timeline scrollbar, if '
             u'visible. Please consider that hiding standard user interface '
             u'components can affect the accessibility of your website.'
-            u''
+            u' '
             u'transparent: Removes the background color.'),
         value_type=schema.Choice(
             source='pareto.portlet.twittertimeline.Chrome'),
@@ -160,9 +164,19 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
         description=_(u'If enabled, the timeline is set as unobtrusive as '
             u'possible and rendered in a portlet instead of the standard '
             u'Twitter timeline.'),
-        # values=("polite", "assertive"),
         required=False,
         default=False)
+
+    footer = schema.TextLine(
+        title=_(u"Portlet footer"),
+        description=_(u"Text to be shown in the footer"),
+        required=False)
+
+    more_url = schema.ASCIILine(
+        title=_(u"Details link"),
+        description=_(u"If given, the header and footer "
+            "will link to this URL."),
+        required=False)
 
 
     #    <a class="twitter-timeline" 
@@ -217,6 +231,8 @@ class Assignment(base.Assignment):
     related = u""
     aria_polite = True
     emulate_portlet = False
+    footer = u""
+    more_url = ''
 
     def __init__(self, 
         header = u"", 
@@ -234,6 +250,8 @@ class Assignment(base.Assignment):
         related = u"", 
         aria_polite = True, 
         emulate_portlet = False,
+        footer = u"",
+        more_url = '',
         ):
 
         self.header = header
@@ -251,6 +269,8 @@ class Assignment(base.Assignment):
         self.related = related
         self.aria_polite = aria_polite
         self.emulate_portlet = emulate_portlet
+        self.footer = footer
+        self.more_url = more_url
      
     @property
     def title(self):
@@ -273,6 +293,12 @@ class Renderer(base.Renderer):
     def __init__(self, *args):
         base.Renderer.__init__(self, *args)
 
+    def has_link(self):
+        return bool(self.data.more_url)
+
+    def has_footer(self):
+        return bool(self.data.footer)
+
     def init_js(self):
         return ('!function(d,s,id){'
                 'var js,fjs=d.getElementsByTagName(s)[0],'
@@ -281,6 +307,34 @@ class Renderer(base.Renderer):
                 'js.id=id;js.src=p+"://platform.twitter.com/widgets.js";'
                 'fjs.parentNode.insertBefore(js,fjs);'
                 '}}(document,"script","twitter-wjs");')
+
+    def transformed(self, mt='text/x-html-safe'):
+        """Use the safe_html transform to protect text output. This also
+        ensures that resolve UID links are transformed into real links.
+        """
+        orig = self.data.info
+        context = aq_inner(self.context)
+        if not isinstance(orig, unicode):
+            # Apply a potentially lossy transformation, and hope we stored
+            # utf-8 text. There were bugs in earlier versions of this portlet
+            # which stored text directly as sent by the browser, which could
+            # be any encoding in the world.
+            orig = unicode(orig, 'utf-8', 'ignore')
+            logger.warn("Static portlet at %s has stored non-unicode text. "
+                "Assuming utf-8 encoding." % context.absolute_url())
+
+        # Portal transforms needs encoded strings
+        orig = orig.encode('utf-8')
+
+        transformer = getToolByName(context, 'portal_transforms')
+        data = transformer.convertTo(mt, orig,
+                                     context=context, mimetype='text/html')
+        result = data.getData()
+        if result:
+            if isinstance(result, str):
+                return unicode(result, 'utf-8')
+            return result
+        return None
 
 
 class AddForm(base.AddForm):
