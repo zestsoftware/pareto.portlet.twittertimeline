@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <portlets>
+
+ <!-- Portlet type registrations -->
+
  <portlet
-   addview="pareto.portlet.twittertimeline.twittertimelinePortlet"
-   title="twittertimeline Portlet"
-   description="Twitter Timeline using the twitter API."
+   addview="pareto.portlet.twittertimeline.TwitterTimelinePortlet"
+   title="Twitter Timeline Portlet"
+   description=""
    />
+
 </portlets>

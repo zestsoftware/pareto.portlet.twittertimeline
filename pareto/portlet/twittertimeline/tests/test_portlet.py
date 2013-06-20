@@ -21,9 +21,9 @@ class TestPortlet(TestCase):
     def test_portlet_type_registered(self):
         portlet = getUtility(
             IPortletType,
-            name='pareto.portlet.twittertimeline.twittertimelinePortlet')
+            name='pareto.portlet.twittertimeline.TwitterTimelinePortlet')
         self.assertEquals(portlet.addview,
-                          'pareto.portlet.twittertimeline.twittertimelinePortlet')
+                          'pareto.portlet.twittertimeline.TwitterTimelinePortlet')
 
     def test_interfaces(self):
         # TODO: Pass any keyword arguments to the Assignment constructor
@@ -34,7 +34,7 @@ class TestPortlet(TestCase):
     def test_invoke_add_view(self):
         portlet = getUtility(
             IPortletType,
-            name='pareto.portlet.twittertimeline.twittertimelinePortlet')
+            name='pareto.portlet.twittertimeline.TwitterTimelinePortlet')
         mapping = self.portal.restrictedTraverse(
             '++contextportlets++plone.leftcolumn')
         for m in mapping.keys():

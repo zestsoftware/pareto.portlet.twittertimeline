@@ -6,7 +6,7 @@ version = '1.0'
 setup(name='pareto.portlet.twittertimeline',
       version=version,
       description="",
-      long_description=open("README.md").read() + "\n" +
+      long_description=open("README.txt").read() + "\n" +
                        open(os.path.join("docs", "HISTORY.txt")).read(),
       # Get more strings from
       # http://pypi.python.org/pypi?:action=list_classifiers
@@ -17,7 +17,7 @@ setup(name='pareto.portlet.twittertimeline',
       keywords='',
       author='',
       author_email='',
-      url='http://svn.plone.org/svn/pareto/',
+      url='http://svn.plone.org/svn/collective/',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['pareto', 'pareto.portlet'],

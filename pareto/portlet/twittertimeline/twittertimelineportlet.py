@@ -2,7 +2,7 @@ from zope.interface import implements
 
 from plone.portlets.interfaces import IPortletDataProvider
 from plone.app.portlets.portlets import base
-from plone.app.form.timelines.wysiwygtimeline import WYSIWYGTimeline
+from plone.app.form.widgets.wysiwygwidget import WYSIWYGWidget
 
 from Acquisition import aq_inner
 from Products.CMFCore.utils import getToolByName
@@ -12,90 +12,64 @@ from zope.formlib import form
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from pareto.portlet.twittertimeline import _
+from pareto.portlet.twittertimeline import TTMF as _
 
 
-class ITwitterTimeline(IPortletDataProvider):
-    """ Twitter Timeline
-        ================
+class ITwitterTimelinePortlet(IPortletDataProvider):
+    """A portlet
 
-        <a class="twitter-timeline" 
-           href="https://twitter.com/twitterapi" 
-           data-timeline-id="YOUR-WIDGET-ID-HERE" 
-           data-link-color="#cc0000"  
-           data-theme="dark" 
-           width="300" 
-           height="500" 
-           data-chrome="noheader nofooter noborders noscrollbar transparent"
-           data-border-color="#cc0000"
-           lang="EN" 
-           data-tweet-limit="3"
-           data-related="twitterapi,twitter" 
-           data-aria-polite="assertive">Tweets by @twitterapi</a>
- 
-
-       data-timeline-id="YOUR-WIDGET-ID-HERE" 
-       data-link-color="#cc0000"  
-       data-theme="dark" 
-       width="300" 
-       height="500" 
-       data-chrome="noheader nofooter noborders noscrollbar transparent"
-       data-border-color="#cc0000"
-       lang="EN" 
-       data-tweet-limit="3"
-       data-related="twitterapi,twitter" 
-       data-aria-polite="polite"
-
-"""
+    It inherits from IPortletDataProvider because for this portlet, the
+    data that is being rendered and the portlet assignment itself are the
+    same.
+    """
     header = schema.TextLine(
         title=_(u"Portlet header"),
         description=_(u"Title of the rendered portlet. Only shows when "
             u"emulate portlet is enabled."),
         required=True)
-
+ 
     info = schema.Text(
         title=_(u"Information"),
         description=_(u"Short rich text area. Only shows when emulate portlet "
             u"is enabled."),
         required=False)
-
+  
     username = schema.TextLine(
         title=_(u"Username"),
-        description=_(u''),
+        description=_(u""),
         required=True)
-
+  
     timeline_id = schema.TextLine(
         title=_(u"Timeline ID"),
-        description=_(u''),
+        description=_(u""),
         required=True)
-
+  
     theme = schema.Choice(
         title=_(u"Theme"),
-        description=_(u'Set by adding a data-theme="dark" attribute to the '
-                      u'embed code.'),
+        description=_(u'Set by adding a "dark" attribute to the embed code.'),
         values=("light", "dark"),
         required=True,
         default="light") 
-
+  
     link_color = schema.TextLine(
         title=_(u"Link color"),
         description=_(u'Set by adding a data-link-color="#cc0000" attribute. '
             u'Note that some icons in the timeline will also appear this color.'
             ),
         required=False)
-
-    width = schema.Int(
+  
+    width = schema.TextLine(
         title=_(u"Width"),
         description=_(u'Set using the standard HTML width attribute on the '
             u'embed code (units are pixels.)'),
         required=False)
-
-    height = schema.Int(
+  
+    height = schema.TextLine(
         title=_(u"Height"),
         description=_(u'Set using the standard HTML height attribute on the '
             u'embed code (units are pixels.)'),
         required=True)
-
+  
     chrome = schema.Choice(
         title=_(u"Chrome"),
         description=_(u'Control the timeline layout and chrome by using the '
@@ -117,23 +91,22 @@ class ITwitterTimeline(IPortletDataProvider):
             u'transparent: Removes the background color.'),
         values=("noheader", "nofooter", "noborders", "noscrollbar", 
                 "transparent"),
-        required=False,
-        default="")
-
+        required=False)
+  
     border_color = schema.TextLine(
         title=_(u"Border color"),
         description=_(u'Change the border color used by the timeline. Takes an '
             u'#abc123 hex format color e.g. "#cc0000"'),
         required=True)
-
+  
     lang = schema.TextLine(
         title=_(u"Language"),
         description=_(u'The timeline language is detected from the page, based '
             u'on the HTML lang attribute of your content. You can also set '
             u'the HTML lang attribute on the embed code itself.'),
         required=True)
-
-    tweet_limit = schema.Int(
+  
+    tweet_limit = schema.TextLine(
         title=_(u"Tweet limit"),
         description=_(u'To fix the size of a timeline to a preset number of '
             u'Tweets, use the data-tweet-limit="5" attribute with any value '
@@ -143,7 +116,7 @@ class ITwitterTimeline(IPortletDataProvider):
             u'timeline is of a fixed size, it will not poll for updates when '
             u'using this option.'),
         required=False)
-
+  
     related = schema.TextLine(
         title=_(u"Web Intent Related Users"),
         description=_(u'As per the Tweet and follow buttons, you may '
@@ -152,7 +125,7 @@ class ITwitterTimeline(IPortletDataProvider):
             u'favorite a Tweet in the timeline. Use a '
             u'data-related="benward,endform" attribute on the embed code.'),
         required=False)
-
+  
     aria_polite = schema.Bool(
         title=_(u"ARIA politeness"),
         description=_(u'ARIA is an accessibility system that aids people '
@@ -164,7 +137,7 @@ class ITwitterTimeline(IPortletDataProvider):
         # values=("polite", "assertive"),
         required=False,
         default=True)
-
+  
     emulate_portlet = schema.Bool(
         title=_(u"Emulate portlet"),
         description=_(u'If enabled, the timeline is set as unobtrusive as '
@@ -175,9 +148,42 @@ class ITwitterTimeline(IPortletDataProvider):
         default=False)
 
 
+    #    <a class="twitter-timeline" 
+    #       href="https://twitter.com/twitterapi" 
+    #       data-timeline-id="YOUR-WIDGET-ID-HERE" 
+    #       data-link-color="#cc0000"  
+    #       data-theme="dark" 
+    #       width="300" 
+    #       height="500" 
+    #       data-chrome="noheader nofooter noborders noscrollbar transparent"
+    #       data-border-color="#cc0000"
+    #       lang="EN" 
+    #       data-tweet-limit="3"
+    #       data-related="twitterapi,twitter" 
+    #       data-aria-polite="assertive">Tweets by @twitterapi</a>
+    # 
+    # 
+    #   data-timeline-id="YOUR-WIDGET-ID-HERE" 
+    #   data-link-color="#cc0000"  
+    #   data-theme="dark" 
+    #   width="300" 
+    #   height="500" 
+    #   data-chrome="noheader nofooter noborders noscrollbar transparent"
+    #   data-border-color="#cc0000"
+    #   lang="EN" 
+    #   data-tweet-limit="3"
+    #   data-related="twitterapi,twitter" 
+    #   data-aria-polite="polite"
+
+
 class Assignment(base.Assignment):
-    """ Portlet assignment """
-    implements(ITwitterTimeline)
+    """Portlet assignment.
+
+    This is what is actually managed through the portlets UI and associated
+    with columns.
+    """
+
+    implements(ITwitterTimelinePortlet)
 
     header = u""
     info = u""
@@ -195,11 +201,23 @@ class Assignment(base.Assignment):
     aria_polite = True
     emulate_portlet = False
 
-    def __init__(self, header = u"", info = u"", username = u"", 
-        timeline_id = u"", theme = u"", link_color = u"", width = u"", 
-        height = u"", chrome = u"", border_color = u"", lang = u"", 
-        tweet_limit = u"", related = u"", aria_polite = True, 
-        emulate_portlet = False):
+    def __init__(self, 
+        header = u"", 
+        info = u"", 
+        username = u"", 
+        timeline_id = u"", 
+        theme = u"", 
+        link_color = u"", 
+        width = u"", 
+        height = u"", 
+        chrome = u"", 
+        border_color = u"", 
+        lang = u"", 
+        tweet_limit = u"", 
+        related = u"", 
+        aria_polite = True, 
+        emulate_portlet = False
+        ):
 
         self.header = header
         self.info = info
@@ -216,7 +234,7 @@ class Assignment(base.Assignment):
         self.related = related
         self.aria_polite = aria_polite
         self.emulate_portlet = emulate_portlet
-    
+     
     @property
     def title(self):
         """This property is used to give the title of the portlet in the
@@ -226,50 +244,48 @@ class Assignment(base.Assignment):
 
 
 class Renderer(base.Renderer):
-    """ Portlet renderer """
+    """Portlet renderer.
 
-    render = ViewPageTemplateFile('twittertimeline.pt')
+    This is registered in configure.zcml. The referenced page template is
+    rendered, and the implicit variable 'view' will refer to an instance
+    of this class. Other methods can be added and referenced in the template.
+    """
 
-
-    def transformed(self, mt='text/x-html-safe'):
-        """Use the safe_html transform to protect text output. This also
-        ensures that resolve UID links are transformed into real links.
-        """
-        orig = self.data.info
-        context = aq_inner(self.context)
-        if not isinstance(orig, unicode):
-            # Apply a potentially lossy transformation, and hope we stored
-            # utf-8 text. There were bugs in earlier versions of this portlet
-            # which stored text directly as sent by the browser, which could
-            # be any encoding in the world.
-            orig = unicode(orig, 'utf-8', 'ignore')
-            logger.warn("Static portlet at %s has stored non-unicode text. "
-                        "Assuming utf-8 encoding." % context.absolute_url())
-
-        # Portal transforms needs encoded strings
-        orig = orig.encode('utf-8')
-
-        transformer = getToolByName(context, 'portal_transforms')
-        data = transformer.convertTo(mt, orig,
-                                     context=context, mimetype='text/html')
-        result = data.getData()
-        if result:
-            return unicode(result, 'utf-8')
-        return None
+    render = ViewPageTemplateFile('twittertimelineportlet.pt')
 
 
 class AddForm(base.AddForm):
-    """ Portlet add form """
-    form_fields = form.Fields(ITwitterTimeline)
+    """Portlet add form.
 
-    form_fields['info'].custom_timeline = WYSIWYGTimeline
+    This is registered in configure.zcml. The form_fields variable tells
+    zope.formlib which fields to display. The create() method actually
+    constructs the assignment that is being added.
+    """
+    form_fields = form.Fields(ITwitterTimelinePortlet)
 
     def create(self, data):
         return Assignment(**data)
 
 
-class EditForm(base.EditForm):
-    """ Portlet edit form """
-    form_fields = form.Fields(ITwitterTimeline)
+# NOTE: If this portlet does not have any configurable parameters, you
+# can use the next AddForm implementation instead of the previous.
 
-    form_fields['info'].custom_timeline = WYSIWYGTimeline
+# class AddForm(base.NullAddForm):
+#     """Portlet add form.
+#     """
+#     def create(self):
+#         return Assignment()
+
+
+# NOTE: If this portlet does not have any configurable parameters, you
+# can remove the EditForm class definition and delete the editview
+# attribute from the <plone:portlet /> registration in configure.zcml
+
+
+class EditForm(base.EditForm):
+    """Portlet edit form.
+
+    This is registered with configure.zcml. The form_fields variable tells
+    zope.formlib which fields to display.
+    """
+    form_fields = form.Fields(ITwitterTimelinePortlet)
