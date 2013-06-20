@@ -1,5 +1,6 @@
 <tal:timeline define="data view/data;
-                      data_chrome data/chrome|python:[];"
+                      data_chrome data/chrome|python:[];
+                      data_theme data/theme|nothing;"
               i18n:domain="pareto.portlet.twittertimeline">
     <dl class="portlet portletTwitterTimelinePortlet"
         tal:condition="data/emulate_portlet">
@@ -44,10 +45,10 @@
            tal:attributes="href string:https://twitter.com/${data/username};
                            data-widget-id data/timeline_id|nothing;
                            data-link-color data/link_color|nothing;
-                           data-theme data/theme|nothing;
+                           data-theme python:data_theme if data_theme != 'light' else None;
                            width data/width|nothing;
                            height data/height|nothing;
-                           data-chrome python:' '.join(data_chrome);
+                           data-chrome python:' '.join(data_chrome) if data_chrome else None;
                            data-border-color data/border_color|nothing;
                            lang data/lang|nothing;
                            data-tweet-limit data/tweet_limit|nothing;
