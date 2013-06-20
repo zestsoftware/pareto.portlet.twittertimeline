@@ -4,7 +4,7 @@
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
     xmlns:plone="http://namespaces.plone.org/plone"
     xmlns:i18n="http://namespaces.zope.org/i18n"
-    i18n_domain="pareto.portlet.twitterwidget">
+    i18n_domain="pareto.portlet.twittertimeline">
 
     <five:registerPackage package="." initialize=".initialize" />
     <i18n:registerTranslations directory="locales" />
@@ -13,19 +13,19 @@
 
     <genericsetup:registerProfile
        name="default"
-       title="Twitter Widget Portlet"
+       title="Twitter Timeline Portlet"
        directory="profiles/default"
        description=""
        provides="Products.GenericSetup.interfaces.EXTENSION"
        />
 
     <plone:portlet
-       name="pareto.portlet.twitterwidget"
-       interface=".twitterwidget.ITwitterWidget"
-       assignment=".twitterwidget.Assignment"
-       renderer=".twitterwidget.Renderer"
-       addview=".twitterwidget.AddForm"
-       editview=".twitterwidget.EditForm"
+       name="pareto.portlet.twittertimeline"
+       interface=".twittertimeline.ITwitterTimeline"
+       assignment=".twittertimeline.Assignment"
+       renderer=".twittertimeline.Renderer"
+       addview=".twittertimeline.AddForm"
+       editview=".twittertimeline.EditForm"
        />
 
 </configure>

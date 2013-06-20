@@ -1,0 +1,61 @@
+<dl class="portlet portletTwitterTimeline"
+    tal:replace="nothing"
+    tal:define="term view/data/term;
+                type view/data/type;
+                number view/data/number;
+                info view/data/info;
+                showAvatar python:'true' if view.data.show_avatar else 'false';
+                show_info view/data/show_info;   
+                showInfo python:'true' if show_info else 'false';   
+                show_user view/data/show_user;   
+                showUser python:'true' if show_user else 'false';   
+                header python:'' if show_user else view.data.header;"
+    tal:attributes="data-term term;
+                    data-type type;
+                    data-number number;
+                    data-showAvatar showAvatar;
+                    data-showInfo showInfo;
+                    data-showUser showUser;"   
+    i18n:domain="pareto.portlet.twittertimeline">
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span class="portletTitle" tal:content="header">Title</span>
+        <span class="portletTopRight"></span>
+    </dt>
+
+    <dd class="portletItem info"
+        tal:condition="python:show_info and not show_user"
+        tal:content="structure info">
+        Info
+    </dd>
+
+    <dd class="portletItem noTweets odd"
+        i18n:translate="">
+        No tweets.
+    </dd>
+
+    <dd class="portletFooter">
+        <span class="portletBottomLeft"></span>
+        <span class="portletBottomRight"></span>
+    </dd>
+
+</dl>
+<div id="portletTwitterTimeline">
+    <a class="twitter-timeline"
+       tal:define="data view/data;"
+       tal:attributes="href python:'https://twitter.com/%(username)s' % data;
+                       data-timeline-id data/timeline_id|nothing;
+                       data-link-color data/link_color|nothing;
+                       data-theme data/theme|nothing;
+                       width data/width|nothing;
+                       height data/height|nothing;
+                       data-chrome data/chrome|nothing;
+                       data-border-color data/border_color|nothing;
+                       lang data/lang|nothing;
+                       data-tweet-limit data/tweet_limit|nothing;
+                       data-related data/related|nothing; 
+                       data-aria-polite data/aria-polite|nothing;"
+       tal:content="python:'Tweets by @%(username)s' % data">twitterapi</a>
+</div>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/timelines.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>

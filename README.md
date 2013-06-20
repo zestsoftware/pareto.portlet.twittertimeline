@@ -1,2 +1,2 @@
-pareto.portlet.twitterwidget
+pareto.portlet.twittertimeline
 ============================

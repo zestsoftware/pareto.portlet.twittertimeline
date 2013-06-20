@@ -3,7 +3,7 @@ import os
 
 version = '1.0'
 
-setup(name='pareto.portlet.twitterwidget',
+setup(name='pareto.portlet.twittertimeline',
       version=version,
       description="",
       long_description=open("README.md").read() + "\n" +

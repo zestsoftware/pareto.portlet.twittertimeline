@@ -8,9 +8,9 @@ from plone.portlets.interfaces import IPortletRenderer
 
 from plone.app.portlets.storage import PortletAssignmentMapping
 
-from pareto.portlet.twitterwidget import twitterwidgetportlet
+from pareto.portlet.twittertimeline import twittertimelineportlet
 
-from pareto.portlet.twitterwidget.tests.base import TestCase
+from pareto.portlet.twittertimeline.tests.base import TestCase
 
 
 class TestPortlet(TestCase):
@@ -21,20 +21,20 @@ class TestPortlet(TestCase):
     def test_portlet_type_registered(self):
         portlet = getUtility(
             IPortletType,
-            name='pareto.portlet.twitterwidget.twitterwidgetPortlet')
+            name='pareto.portlet.twittertimeline.twittertimelinePortlet')
         self.assertEquals(portlet.addview,
-                          'pareto.portlet.twitterwidget.twitterwidgetPortlet')
+                          'pareto.portlet.twittertimeline.twittertimelinePortlet')
 
     def test_interfaces(self):
         # TODO: Pass any keyword arguments to the Assignment constructor
-        portlet = twitterwidgetportlet.Assignment()
+        portlet = twittertimelineportlet.Assignment()
         self.failUnless(IPortletAssignment.providedBy(portlet))
         self.failUnless(IPortletDataProvider.providedBy(portlet.data))
 
     def test_invoke_add_view(self):
         portlet = getUtility(
             IPortletType,
-            name='pareto.portlet.twitterwidget.twitterwidgetPortlet')
+            name='pareto.portlet.twittertimeline.twittertimelinePortlet')
         mapping = self.portal.restrictedTraverse(
             '++contextportlets++plone.leftcolumn')
         for m in mapping.keys():
@@ -49,16 +49,16 @@ class TestPortlet(TestCase):
 
         self.assertEquals(len(mapping), 1)
         self.failUnless(isinstance(mapping.values()[0],
-                                   twitterwidgetportlet.Assignment))
+                                   twittertimelineportlet.Assignment))
 
     def test_invoke_edit_view(self):
         # NOTE: This test can be removed if the portlet has no edit form
         mapping = PortletAssignmentMapping()
         request = self.folder.REQUEST
 
-        mapping['foo'] = twitterwidgetportlet.Assignment()
+        mapping['foo'] = twittertimelineportlet.Assignment()
         editview = getMultiAdapter((mapping['foo'], request), name='edit')
-        self.failUnless(isinstance(editview, twitterwidgetportlet.EditForm))
+        self.failUnless(isinstance(editview, twittertimelineportlet.EditForm))
 
     def test_obtain_renderer(self):
         context = self.folder
@@ -68,11 +68,11 @@ class TestPortlet(TestCase):
                              context=self.portal)
 
         # TODO: Pass any keyword arguments to the Assignment constructor
-        assignment = twitterwidgetportlet.Assignment()
+        assignment = twittertimelineportlet.Assignment()
 
         renderer = getMultiAdapter(
             (context, request, view, manager, assignment), IPortletRenderer)
-        self.failUnless(isinstance(renderer, twitterwidgetportlet.Renderer))
+        self.failUnless(isinstance(renderer, twittertimelineportlet.Renderer))
 
 
 class TestRenderer(TestCase):
@@ -90,14 +90,14 @@ class TestRenderer(TestCase):
 
         # TODO: Pass any default keyword arguments to the Assignment
         # constructor.
-        assignment = assignment or twitterwidgetportlet.Assignment()
+        assignment = assignment or twittertimelineportlet.Assignment()
         return getMultiAdapter((context, request, view, manager, assignment),
                                IPortletRenderer)
 
     def test_render(self):
         # TODO: Pass any keyword arguments to the Assignment constructor.
         r = self.renderer(context=self.portal,
-                          assignment=twitterwidgetportlet.Assignment())
+                          assignment=twittertimelineportlet.Assignment())
         r = r.__of__(self.folder)
         r.update()
         #output = r.render()

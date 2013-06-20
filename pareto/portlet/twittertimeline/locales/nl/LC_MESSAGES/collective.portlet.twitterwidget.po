@@ -13,7 +13,7 @@ msgstr ""
 "Language-Code: nl\n"
 "Language-Name: Nederlands\n"
 "Preferred-Encodings: utf-8 latin1\n"
-"Domain: pareto.portlet.twitterwidget\n"
+"Domain: pareto.portlet.twittertimeline\n"
 "X-Is-Fallback-For: nl-be nl-nl\n"
 
 msgid "Portlet header"
