@@ -12,7 +12,7 @@ from zope.formlib import form
 
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from pareto.portlet.twitterwidget import TwitterWidgetPortletMessageFactory as _
+from pareto.portlet.twitterwidget import TwitterWidgetMessageFactory as _
 
 
 class ITwitterWidgetPortlet(IPortletDataProvider):

@@ -1,5 +1,5 @@
 from zope.i18nmessageid import MessageFactory
-twitterwidgetPortletMessageFactory = MessageFactory('pareto.portlet.twitterwidget')
+TwitterWidgetMessageFactory = MessageFactory('pareto.portlet.twitterwidget')
 
 
 def initialize(context):
