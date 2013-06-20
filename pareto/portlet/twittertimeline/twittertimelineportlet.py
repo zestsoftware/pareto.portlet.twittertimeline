@@ -1,18 +1,34 @@
-from zope.interface import implements
+from Acquisition import aq_inner
 
-from plone.portlets.interfaces import IPortletDataProvider
+from pareto.portlet.twittertimeline import TTMF as _
+
 from plone.app.portlets.portlets import base
 from plone.app.form.widgets.wysiwygwidget import WYSIWYGWidget
 
-from Acquisition import aq_inner
+from plone.portlets.interfaces import IPortletDataProvider
+
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from zope import schema
 from zope.formlib import form
+from zope.interface import implements
+from zope.schema.interfaces import IVocabularyFactory
+from zope.schema.vocabulary import SimpleTerm
+from zope.schema.vocabulary import SimpleVocabulary
 
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+class ChromeVocabulary(object):
+    """Vocabulary factory for chrome. """
+    implements(IVocabularyFactory)
 
-from pareto.portlet.twittertimeline import TTMF as _
+    def __call__(self, context):        
+        items = [
+            "noheader", "nofooter", "noborders", "noscrollbar","transparent"]
+        items = [SimpleTerm(i, i, i) for i in items]
+        return SimpleVocabulary(items)
+
+ChromeVocabularyFactory = ChromeVocabulary()
+
 
 
 class ITwitterTimelinePortlet(IPortletDataProvider):
@@ -48,14 +64,14 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
         title=_(u"Theme"),
         description=_(u'Set by adding a "dark" attribute to the embed code.'),
         values=("light", "dark"),
-        required=True,
+        required=False,
         default="light") 
   
     link_color = schema.TextLine(
         title=_(u"Link color"),
         description=_(u'Set by adding a data-link-color="#cc0000" attribute. '
-            u'Note that some icons in the timeline will also appear this color.'
-            ),
+            u'Note that some icons in the timeline will also appear this '
+            u'color.'),
         required=False)
   
     width = schema.TextLine(
@@ -68,9 +84,9 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
         title=_(u"Height"),
         description=_(u'Set using the standard HTML height attribute on the '
             u'embed code (units are pixels.)'),
-        required=True)
+        required=False)
   
-    chrome = schema.Choice(
+    chrome = schema.List(
         title=_(u"Chrome"),
         description=_(u'Control the timeline layout and chrome by using the '
             u'data-chrome="nofooter transparent" attribute on the embed code. '
@@ -89,22 +105,23 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
             u'components can affect the accessibility of your website.'
             u''
             u'transparent: Removes the background color.'),
-        values=("noheader", "nofooter", "noborders", "noscrollbar", 
-                "transparent"),
-        required=False)
+        value_type=schema.Choice(
+            source='pareto.portlet.twittertimeline.Chrome'),
+        required=False,
+        default=[])
   
     border_color = schema.TextLine(
         title=_(u"Border color"),
         description=_(u'Change the border color used by the timeline. Takes an '
             u'#abc123 hex format color e.g. "#cc0000"'),
-        required=True)
+        required=False)
   
     lang = schema.TextLine(
         title=_(u"Language"),
         description=_(u'The timeline language is detected from the page, based '
             u'on the HTML lang attribute of your content. You can also set '
             u'the HTML lang attribute on the embed code itself.'),
-        required=True)
+        required=False)
   
     tweet_limit = schema.TextLine(
         title=_(u"Tweet limit"),
@@ -193,7 +210,7 @@ class Assignment(base.Assignment):
     link_color = u""
     width = u""
     height = u""
-    chrome = u""
+    chrome = []
     border_color = u""
     lang = u""
     tweet_limit = u""
@@ -210,13 +227,13 @@ class Assignment(base.Assignment):
         link_color = u"", 
         width = u"", 
         height = u"", 
-        chrome = u"", 
+        chrome = [], 
         border_color = u"", 
         lang = u"", 
         tweet_limit = u"", 
         related = u"", 
         aria_polite = True, 
-        emulate_portlet = False
+        emulate_portlet = False,
         ):
 
         self.header = header
@@ -253,6 +270,18 @@ class Renderer(base.Renderer):
 
     render = ViewPageTemplateFile('twittertimelineportlet.pt')
 
+    def __init__(self, *args):
+        base.Renderer.__init__(self, *args)
+
+    def init_js(self):
+        return ('!function(d,s,id){'
+                'var js,fjs=d.getElementsByTagName(s)[0],'
+                "p=/^http:/.test(d.location)?'http':'https';"
+                'if(!d.getElementById(id)){js=d.createElement(s);'
+                'js.id=id;js.src=p+"://platform.twitter.com/widgets.js";'
+                'fjs.parentNode.insertBefore(js,fjs);'
+                '}}(document,"script","twitter-wjs");')
+
 
 class AddForm(base.AddForm):
     """Portlet add form.
@@ -262,24 +291,10 @@ class AddForm(base.AddForm):
     constructs the assignment that is being added.
     """
     form_fields = form.Fields(ITwitterTimelinePortlet)
+    form_fields['info'].custom_widget = WYSIWYGWidget
 
     def create(self, data):
         return Assignment(**data)
-
-
-# NOTE: If this portlet does not have any configurable parameters, you
-# can use the next AddForm implementation instead of the previous.
-
-# class AddForm(base.NullAddForm):
-#     """Portlet add form.
-#     """
-#     def create(self):
-#         return Assignment()
-
-
-# NOTE: If this portlet does not have any configurable parameters, you
-# can remove the EditForm class definition and delete the editview
-# attribute from the <plone:portlet /> registration in configure.zcml
 
 
 class EditForm(base.EditForm):
@@ -289,3 +304,4 @@ class EditForm(base.EditForm):
     zope.formlib which fields to display.
     """
     form_fields = form.Fields(ITwitterTimelinePortlet)
+    form_fields['info'].custom_widget = WYSIWYGWidget

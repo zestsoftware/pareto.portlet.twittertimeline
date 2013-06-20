@@ -1,20 +1,60 @@
-<dl class="portlet portletTwitterTimelinePortlet"
-    i18n:domain="pareto.portlet.twittertimeline">
+<tal:timeline define="data view/data;
+                      data_chrome data/chrome|python:[];"
+              i18n:domain="pareto.portlet.twittertimeline">
+    <dl class="portlet portletTwitterTimelinePortlet"
+        tal:condition="data/emulate_portlet">
+    
+        <dt class="portletHeader">
+            <span class="portletTopLeft"></span>
+            <tal:header content="data/header"/>
+            <span class="portletTopRight"></span>
+        </dt>
+    
+        <dd class="portletItem odd"
+            tal:condition="data/info"
+            tal:content="structure data/info">    
+        </dd>
+    
+        <dd class="portletItem even">
+            <a class="twitter-timeline"
+               tal:attributes="href string:https://twitter.com/${data/username};
+                               data-widget-id data/timeline_id|nothing;
+                               data-link-color data/link_color|nothing;
+                               data-theme data/theme|nothing;
+                               width data/width|nothing;
+                               height data/height|nothing;
+                               data-chrome python:' '.join(data_chrome) if data_chrome else 'noheader nofooter transparent noborders';
+                               data-border-color data/border_color|nothing;
+                               lang data/lang|nothing;
+                               data-tweet-limit data/tweet_limit|nothing;
+                               data-related data/related|nothing; 
+                               data-aria-polite data/aria-polite|nothing;"
+               tal:content="string:Tweets by @${data/username}">twitterapi</a>
+        </dd>
 
-    <dt class="portletHeader">
-        <span class="portletTopLeft"></span>
-        Header
-        <span class="portletTopRight"></span>
-    </dt>
+        <dd class="portletFooter">
+            <span class="portletBottomLeft"></span>
+            <span class="portletBottomRight"></span>
+        </dd>
 
-    <dd class="portletItem odd">
-        Body text
-    </dd>
+    </dl>
+    <div id="portletTwitterTimeline"
+    	 tal:condition="not:data/emulate_portlet">
+        <a class="twitter-timeline"
+           tal:attributes="href string:https://twitter.com/${data/username};
+                           data-widget-id data/timeline_id|nothing;
+                           data-link-color data/link_color|nothing;
+                           data-theme data/theme|nothing;
+                           width data/width|nothing;
+                           height data/height|nothing;
+                           data-chrome python:' '.join(data_chrome);
+                           data-border-color data/border_color|nothing;
+                           lang data/lang|nothing;
+                           data-tweet-limit data/tweet_limit|nothing;
+                           data-related data/related|nothing; 
+                           data-aria-polite data/aria-polite|nothing;"
+           tal:content="string:Tweets by @${data/username}">twitterapi</a>
+    </div>
+    <script tal:content="view/init_js"></script>
 
-    <dd class="portletFooter">
-        <span class="portletBottomLeft"></span>
-        Footer
-        <span class="portletBottomRight"></span>
-    </dd>
-
-</dl>
+</tal:timeline>

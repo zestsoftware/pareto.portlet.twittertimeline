@@ -7,6 +7,11 @@
 
     <five:registerPackage package="." initialize=".initialize" />
 
+    <utility
+      component=".twittertimelineportlet.ChromeVocabularyFactory"
+      name="pareto.portlet.twittertimeline.Chrome"
+      />
+
     <genericsetup:registerProfile
        name="default"
        title="Twitter Timeline Portlet"
