@@ -3,7 +3,7 @@
                       data_theme data/theme|nothing;
                       data_info data/transformed|nothing"
               i18n:domain="pareto.portlet.twittertimeline">
-    <dl class="portlet portletTwitterTimelinePortlet"
+    <dl class="portlet portletTwitterTimeline"
         tal:condition="data/emulate_portlet">
     
         <dt class="portletHeader"
@@ -42,29 +42,29 @@
                                data-related data/related|nothing; 
                                data-aria-polite data/aria-polite|nothing;"
                tal:content="string:Tweets by @${data/username}">twitterapi</a>
-        <tal:corners condition="not:view/has_footer">
+            <tal:corners condition="not:view/has_footer">
+                <span class="portletBottomLeft"></span>
+                <span class="portletBottomRight"></span>
+            </tal:corners>
+        </dd>
+        
+        <dd class="portletFooter" tal:condition="view/has_footer">
             <span class="portletBottomLeft"></span>
+            <span>
+               <a class="tile"
+                  tal:omit-tag="not:view/has_link"
+                  tal:attributes="href view/data/more_url"
+                  tal:content="view/data/footer"
+                  />
+            </span>
             <span class="portletBottomRight"></span>
-        </tal:corners>
-    </dd>
-    
-    <dd class="portletFooter" tal:condition="view/has_footer">
-        <span class="portletBottomLeft"></span>
-        <span>
-           <a class="tile"
-              tal:omit-tag="not:view/has_link"
-              tal:attributes="href view/data/more_url"
-              tal:content="view/data/footer"
-              />
-        </span>
-        <span class="portletBottomRight"></span>
-    </dd>
+        </dd>
 
     </dl>
     <div id="portletTwitterTimeline"
     	 tal:condition="not:data/emulate_portlet">
         <tal:data_info condition="data_info"
-                       content="structure data_info"/>
+                       replace="structure data_info"/>
         <a class="twitter-timeline"
            tal:attributes="href string:https://twitter.com/${data/username};
                            data-widget-id data/timeline_id|nothing;
