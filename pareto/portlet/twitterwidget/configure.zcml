@@ -13,7 +13,7 @@
 
     <genericsetup:registerProfile
        name="default"
-       title="twitterwidget Portlet"
+       title="Twitter Widget Portlet"
        directory="profiles/default"
        description=""
        provides="Products.GenericSetup.interfaces.EXTENSION"
@@ -21,11 +21,11 @@
 
     <plone:portlet
        name="pareto.portlet.twitterwidget"
-       interface=".twitterwidgetportlet.ITwitterWidgetPortlet"
-       assignment=".twitterwidgetportlet.Assignment"
-       renderer=".twitterwidgetportlet.Renderer"
-       addview=".twitterwidgetportlet.AddForm"
-       editview=".twitterwidgetportlet.EditForm"
+       interface=".twitterwidget.ITwitterWidget"
+       assignment=".twitterwidget.Assignment"
+       renderer=".twitterwidget.Renderer"
+       addview=".twitterwidget.AddForm"
+       editview=".twitterwidget.EditForm"
        />
 
 </configure>

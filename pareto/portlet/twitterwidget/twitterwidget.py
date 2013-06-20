@@ -15,7 +15,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from pareto.portlet.twitterwidget import TwitterWidgetMessageFactory as _
 
 
-class ITwitterWidgetPortlet(IPortletDataProvider):
+class ITwitterWidget(IPortletDataProvider):
     """ TwitterWidgetPortlet
         ====================
 
@@ -175,10 +175,9 @@ class ITwitterWidgetPortlet(IPortletDataProvider):
         default=False)
 
 
-
 class Assignment(base.Assignment):
     """ Portlet assignment """
-    implements(ITwitterWidgetPortlet)
+    implements(ITwitterWidget)
 
     header = u""
     info = u""
@@ -229,7 +228,7 @@ class Assignment(base.Assignment):
 class Renderer(base.Renderer):
     """ Portlet renderer """
 
-    render = ViewPageTemplateFile('twitterwidgetportlet.pt')
+    render = ViewPageTemplateFile('twitterwidget.pt')
 
 
     def transformed(self, mt='text/x-html-safe'):
@@ -261,7 +260,7 @@ class Renderer(base.Renderer):
 
 class AddForm(base.AddForm):
     """ Portlet add form """
-    form_fields = form.Fields(ITwitterWidgetPortlet)
+    form_fields = form.Fields(ITwitterWidget)
 
     form_fields['info'].custom_widget = WYSIWYGWidget
 
@@ -271,6 +270,6 @@ class AddForm(base.AddForm):
 
 class EditForm(base.EditForm):
     """ Portlet edit form """
-    form_fields = form.Fields(ITwitterWidgetPortlet)
+    form_fields = form.Fields(ITwitterWidget)
 
     form_fields['info'].custom_widget = WYSIWYGWidget
