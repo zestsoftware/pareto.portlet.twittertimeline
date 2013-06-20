@@ -9,8 +9,7 @@
     <five:registerPackage package="." initialize=".initialize" />
     <i18n:registerTranslations directory="locales" />
     
-    <include package="plone.app.portlets" file="permissions.zcml" /> 
-    <include package=".browser" />
+    <include package="plone.app.portlets" file="permissions.zcml" />
 
     <genericsetup:registerProfile
        name="default"
@@ -21,7 +20,7 @@
        />
 
     <plone:portlet
-       name="pareto.portlet.twitterwidget.TwitterWidgetPortlet"
+       name="pareto.portlet.twitterwidget"
        interface=".twitterwidgetportlet.ITwitterWidgetPortlet"
        assignment=".twitterwidgetportlet.Assignment"
        renderer=".twitterwidgetportlet.Renderer"
