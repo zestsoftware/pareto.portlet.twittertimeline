@@ -263,6 +263,8 @@ class Renderer(base.Renderer):
         """
         orig = self.data.info
         context = aq_inner(self.context)
+        if not orig:
+            return None
         if not isinstance(orig, unicode):
             # Apply a potentially lossy transformation, and hope we stored
             # utf-8 text. There were bugs in earlier versions of this portlet
