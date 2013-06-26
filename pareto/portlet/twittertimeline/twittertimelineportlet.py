@@ -20,20 +20,6 @@ from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
-# Monkey patch these if you want to set customer specific defaults
-USERNAME = u""
-TIMELINE_ID = u""
-THEME = u""
-LINK_COLOR = u""
-WIDTH = u""
-HEIGHT = u""
-CHROME = []
-BORDER_COLOR = u""
-LANG = u""
-TWEET_LIMIT = u""
-RELATED = u""
-ARIA_POLITE = True
-
 
 class ChromeVocabulary(object):
     """Vocabulary factory for chrome. """
@@ -232,29 +218,27 @@ class Assignment(base.Assignment):
 
     header = u""
     info = u""
-    username = USERNAME
-    timeline_id = TIMELINE_ID
-    theme = THEME
-    link_color = LINK_COLOR
-    width = WIDTH
-    height = HEIGHT
-    chrome = CHROME
-    border_color = BORDER_COLOR
-    lang = LANG
-    tweet_limit = TWEET_LIMIT
-    related = RELATED
-    aria_polite = ARIA_POLITE
+    username = u""
+    timeline_id = u""
+    theme = u""
+    link_color = u""
+    width = u""
+    height = u""
+    chrome = None
+    border_color = u""
+    lang = u""
+    tweet_limit = u""
+    related = u""
+    aria_polite = True
     emulate_portlet = False
     footer = u""
     more_url = ''
 
     def __init__(self, header = u"", info = u"",  
-        username = USERNAME, timeline_id = TIMELINE_ID, theme = THEME,
-        link_color = LINK_COLOR, width = WIDTH, height = HEIGHT, 
-        chrome = CHROME, border_color = BORDER_COLOR, lang = LANG,
-        tweet_limit = TWEET_LIMIT, related = RELATED, 
-        aria_polite = ARIA_POLITE, emulate_portlet = False, footer = u"", 
-        more_url = ''):
+        username = u"", timeline_id = u"", theme = u"", link_color = u"",
+        width = u"", height = u"", chrome = None, border_color = u"",
+        lang = u"", tweet_limit = u"", related = u"", aria_polite = True, 
+        emulate_portlet = False, footer = u"", more_url = ''):
 
         self.header = header
         self.info = info
