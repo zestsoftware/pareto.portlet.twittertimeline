@@ -1,5 +1,9 @@
+include *.md
+include *.py
+
 recursive-include pareto *
 recursive-include docs *
+
 global-exclude *pyc
 global-exclude .project
 global-exclude .pydevproject
