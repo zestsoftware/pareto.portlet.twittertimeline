@@ -1,3 +1,5 @@
+import re
+
 from Acquisition import aq_inner
 
 from pareto.portlet.twittertimeline import TTMF as _
@@ -13,9 +15,25 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope import schema
 from zope.formlib import form
 from zope.interface import implements
+from zope.schema import ValidationError
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+
+# Monkey patch these if you want to set customer specific defaults
+USERNAME = u""
+TIMELINE_ID = u""
+THEME = u""
+LINK_COLOR = u""
+WIDTH = u""
+HEIGHT = u""
+CHROME = []
+BORDER_COLOR = u""
+LANG = u""
+TWEET_LIMIT = u""
+RELATED = u""
+ARIA_POLITE = True
+
 
 class ChromeVocabulary(object):
     """Vocabulary factory for chrome. """
@@ -30,6 +48,30 @@ class ChromeVocabulary(object):
 ChromeVocabularyFactory = ChromeVocabulary()
 
 
+class InvalidHexColor(ValidationError):
+    __doc__ = _(u"This is an invalid color code. "
+                u"It must be a html hex color code e.g. #000000")
+
+def validate_hex_color(value):
+    if value == u"":
+        return True
+    if len(value) != 7 or not re.match(
+        '^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$', value):
+        raise InvalidHexColor(value)
+    return True
+
+
+class InvalidInt(ValidationError):
+    __doc__ = _(u"This is not a valid integer, .e.g. 3")
+
+def validate_int(value):
+    if value == u"":
+        return True
+    try:
+        test = int(value)
+    except ValueError:
+        raise InvalidInt(value)
+    return True
 
 class ITwitterTimelinePortlet(IPortletDataProvider):
     """A portlet
@@ -75,19 +117,22 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
         title=_(u"Link color"),
         description=_(u"Note that some icons in the timeline will also "
                       u"appear this color."),
-        required=False)
+        required=False,
+        constraint=validate_hex_color)
   
     width = schema.TextLine(
         title=_(u"Width"),
         description=_(u"The standard HTML width attribute on the "
                       u"embed code (units are pixels.)"),
-        required=False)
+        required=False,
+        constraint=validate_int)
   
     height = schema.TextLine(
         title=_(u"Height"),
         description=_(u"The standard HTML height attribute on the "
                       u"embed code (units are pixels.)"),
-        required=False)
+        required=False,
+        constraint=validate_int)
   
     chrome = schema.List(
         title=_(u"Chrome"),
@@ -116,7 +161,8 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
         title=_(u"Border color"),
         description=_(u"Change the border color used by the timeline. Takes "
                       u"an #abc123 hex format color e.g. #cc0000"),
-        required=False)
+        required=False,
+        constraint=validate_hex_color)
   
     lang = schema.TextLine(
         title=_(u"Language"),
@@ -186,27 +232,29 @@ class Assignment(base.Assignment):
 
     header = u""
     info = u""
-    username = u""
-    timeline_id = u""
-    theme = u""
-    link_color = u""
-    width = u""
-    height = u""
-    chrome = []
-    border_color = u""
-    lang = u""
-    tweet_limit = u""
-    related = u""
-    aria_polite = True
+    username = USERNAME
+    timeline_id = TIMELINE_ID
+    theme = THEME
+    link_color = LINK_COLOR
+    width = WIDTH
+    height = HEIGHT
+    chrome = CHROME
+    border_color = BORDER_COLOR
+    lang = LANG
+    tweet_limit = TWEET_LIMIT
+    related = RELATED
+    aria_polite = ARIA_POLITE
     emulate_portlet = False
     footer = u""
     more_url = ''
 
-    def __init__(self, header = u"", info = u"", username = u"", 
-        timeline_id = u"", theme = u"", link_color = u"", width = u"", 
-        height = u"", chrome = [], border_color = u"", lang = u"", 
-        tweet_limit = u"", related = u"", aria_polite = True, 
-        emulate_portlet = False, footer = u"", more_url = ''):
+    def __init__(self, header = u"", info = u"",  
+        username = USERNAME, timeline_id = TIMELINE_ID, theme = THEME,
+        link_color = LINK_COLOR, width = WIDTH, height = HEIGHT, 
+        chrome = CHROME, border_color = BORDER_COLOR, lang = LANG,
+        tweet_limit = TWEET_LIMIT, related = RELATED, 
+        aria_polite = ARIA_POLITE, emulate_portlet = False, footer = u"", 
+        more_url = ''):
 
         self.header = header
         self.info = info
