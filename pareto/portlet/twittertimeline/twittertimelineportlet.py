@@ -128,22 +128,23 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
 
     chrome = schema.List(
         title=_(u"Chrome"),
-        description=_(u"Control the timeline layout and chrome. "
-                      u"You can use a set of the following options: "
-                      u" "
-                      u"noheader: Hides the timeline header. Please refer to the "
-                      u"timeline display requirements when implementing your own header."
-                      u" "
-                      u"nofooter: Hides the timeline footer and Tweet box, if included."
-                      u" "
-                      u"noborders: Removes all borders within the timeline (between "
-                      u"Tweets, cards, around the timeline.) See also: border-color."
-                      u" "
-                      u"noscrollbar: Crops and hides the main timeline scrollbar, if "
-                      u"visible. Please consider that hiding standard user interface "
-                      u"components can affect the accessibility of your website."
-                      u" "
-                      u"transparent: Removes the background color."),
+        description=_(
+            u"Control the timeline layout and chrome. "
+            u"You can use a set of the following options: "
+            u" "
+            u"noheader: Hides the timeline header. Please refer to the "
+            u"timeline display requirements when implementing your own header."
+            u" "
+            u"nofooter: Hides the timeline footer and Tweet box, if included."
+            u" "
+            u"noborders: Removes all borders within the timeline (between "
+            u"Tweets, cards, around the timeline.) See also: border-color."
+            u" "
+            u"noscrollbar: Crops and hides the main timeline scrollbar, if "
+            u"visible. Please consider that hiding standard user interface "
+            u"components can affect the accessibility of your website."
+            u" "
+            u"transparent: Removes the background color."),
         value_type=schema.Choice(
             source='pareto.portlet.twittertimeline.Chrome'),
         required=False,
@@ -158,46 +159,51 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
 
     lang = schema.TextLine(
         title=_(u"Language"),
-        description=_(u"The timeline language is detected from the page, "
-                      u"based on the HTML lang attribute of your content. You can also "
-                      u"set the HTML lang attribute on the embed code itself."),
+        description=_(
+            u"The timeline language is detected from the page, "
+            u"based on the HTML lang attribute of your content. You can also "
+            u"set the HTML lang attribute on the embed code itself."),
         required=False)
 
     tweet_limit = schema.TextLine(
         title=_(u"Tweet limit"),
-        description=_(u"To fix the size of a timeline to a preset number of "
-                      u"Tweets, set the tweet-limit with any number between 1 and 20 "
-                      u"Tweets. The timeline will render the specified number of Tweets "
-                      u"from the timeline, expanding the height of the timeline to "
-                      u"display all Tweets without scrolling. Since the timeline is "
-                      u"of a fixed size, it will not poll for updates when using this "
-                      u"option."),
+        description=_(
+            u"To fix the size of a timeline to a preset number of "
+            u"Tweets, set the tweet-limit with any number between 1 and 20 "
+            u"Tweets. The timeline will render the specified number of Tweets "
+            u"from the timeline, expanding the height of the timeline to "
+            u"display all Tweets without scrolling. Since the timeline is "
+            u"of a fixed size, it will not poll for updates when using this "
+            u"option."),
         required=False)
 
     related = schema.TextLine(
         title=_(u"Web Intent Related Users"),
-        description=_(u"As per the Tweet and follow buttons, you may "
-                      u"provide a comma-separated list of user screen names as "
-                      u"suggested followers to a user after they reply, Retweet, or "
-                      u"favorite a Tweet in the timeline."),
+        description=_(
+            u"As per the Tweet and follow buttons, you may "
+            u"provide a comma-separated list of user screen names as "
+            u"suggested followers to a user after they reply, Retweet, or "
+            u"favorite a Tweet in the timeline."),
         required=False)
 
     aria_polite = schema.Bool(
         title=_(u"ARIA politeness"),
-        description=_(u"ARIA is an accessibility system that aids people "
-                      u"using assistive technology interacting with dynamic web "
-                      u"content. Read more about ARIA on W3C's website. If enabled, the "
-                      u"embedded timeline uses the least obtrusive setting. If using an "
-                      u"embedded timeline as a primary source of content on your page, "
-                      u"you may wish to override this to the assertive setting."),
+        description=_(
+            u"ARIA is an accessibility system that aids people "
+            u"using assistive technology interacting with dynamic web "
+            u"content. Read more about ARIA on W3C's website. If enabled, the "
+            u"embedded timeline uses the least obtrusive setting. If using an "
+            u"embedded timeline as a primary source of content on your page, "
+            u"you may wish to override this to the assertive setting."),
         required=False,
         default=True)
 
     emulate_portlet = schema.Bool(
         title=_(u"Emulate portlet"),
-        description=_(u"If enabled, the timeline is set as unobtrusive as "
-                      u"possible and rendered in a portlet instead of the standard "
-                      u"Twitter timeline."),
+        description=_(
+            u"If enabled, the timeline is set as unobtrusive as "
+            u"possible and rendered in a portlet instead of the standard "
+            u"Twitter timeline."),
         required=False,
         default=False)
 
@@ -208,8 +214,8 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
 
     more_url = schema.ASCIILine(
         title=_(u"Details link"),
-        description=_(u"If given, the header and footer "
-                      "will link to this URL."),
+        description=_(
+            u"If given, the header and footer will link to this URL."),
         required=False)
 
 
