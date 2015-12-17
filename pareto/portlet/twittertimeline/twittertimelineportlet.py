@@ -1,3 +1,4 @@
+import logging
 import re
 
 from Acquisition import aq_inner
@@ -19,6 +20,8 @@ from zope.schema import ValidationError
 from zope.schema.interfaces import IVocabularyFactory
 from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
+
+logger = logging.getLogger('pareto.portlet.twittertimeline')
 
 
 class ChromeVocabulary(object):
@@ -56,7 +59,7 @@ def validate_int(value):
     if value == u"":
         return True
     try:
-        test = int(value)
+        int(value)
     except ValueError:
         raise InvalidInt(value)
     return True
