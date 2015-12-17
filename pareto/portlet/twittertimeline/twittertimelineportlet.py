@@ -25,7 +25,7 @@ class ChromeVocabulary(object):
     """Vocabulary factory for chrome. """
     implements(IVocabularyFactory)
 
-    def __call__(self, context):        
+    def __call__(self, context):
         items = [
             "noheader", "nofooter", "noborders", "noscrollbar","transparent"]
         items = [SimpleTerm(i, i, i) for i in items]
@@ -71,7 +71,7 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
         description=_(u"Title of the rendered portlet. Only shows when "
             u"emulate portlet is enabled."),
         required=True)
- 
+
     username = schema.TextLine(
         title=_(u"Username"),
         description=_(u"Create a timeline widget on https://twitter.com"
@@ -79,47 +79,47 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
                       u"Fill in the username, used for the creation of the "
                       u"Twitter Widget."),
         required=True)
-  
+
     timeline_id = schema.TextLine(
         title=_(u"Timeline ID"),
         description=_(u"Fill in the data-timeline-id from the embed code of "
                       u"the Twitter Widget you have created for the username."
                       ),
         required=True)
-  
+
     info = schema.Text(
         title=_(u"Information"),
         description=_(u"Short rich text area. Shows above the tweets."),
         required=False)
-  
+
     theme = schema.Choice(
         title=_(u"Theme"),
         description=_(u""),
         values=("light", "dark"),
         required=False,
-        default="light") 
-  
+        default="light")
+
     link_color = schema.TextLine(
         title=_(u"Link color"),
         description=_(u"Note that some icons in the timeline will also "
                       u"appear this color."),
         required=False,
         constraint=validate_hex_color)
-  
+
     width = schema.TextLine(
         title=_(u"Width"),
         description=_(u"The standard HTML width attribute on the "
                       u"embed code (units are pixels.)"),
         required=False,
         constraint=validate_int)
-  
+
     height = schema.TextLine(
         title=_(u"Height"),
         description=_(u"The standard HTML height attribute on the "
                       u"embed code (units are pixels.)"),
         required=False,
         constraint=validate_int)
-  
+
     chrome = schema.List(
         title=_(u"Chrome"),
         description=_(u"Control the timeline layout and chrome. "
@@ -142,21 +142,21 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
             source='pareto.portlet.twittertimeline.Chrome'),
         required=False,
         default=[])
-  
+
     border_color = schema.TextLine(
         title=_(u"Border color"),
         description=_(u"Change the border color used by the timeline. Takes "
                       u"an #abc123 hex format color e.g. #cc0000"),
         required=False,
         constraint=validate_hex_color)
-  
+
     lang = schema.TextLine(
         title=_(u"Language"),
         description=_(u"The timeline language is detected from the page, "
             u"based on the HTML lang attribute of your content. You can also "
             u"set the HTML lang attribute on the embed code itself."),
         required=False)
-  
+
     tweet_limit = schema.TextLine(
         title=_(u"Tweet limit"),
         description=_(u"To fix the size of a timeline to a preset number of "
@@ -167,7 +167,7 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
             u"of a fixed size, it will not poll for updates when using this "
             u"option."),
         required=False)
-  
+
     related = schema.TextLine(
         title=_(u"Web Intent Related Users"),
         description=_(u"As per the Tweet and follow buttons, you may "
@@ -175,7 +175,7 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
             u"suggested followers to a user after they reply, Retweet, or "
             u"favorite a Tweet in the timeline."),
         required=False)
-  
+
     aria_polite = schema.Bool(
         title=_(u"ARIA politeness"),
         description=_(u"ARIA is an accessibility system that aids people "
@@ -186,7 +186,7 @@ class ITwitterTimelinePortlet(IPortletDataProvider):
             u"you may wish to override this to the assertive setting."),
         required=False,
         default=True)
-  
+
     emulate_portlet = schema.Bool(
         title=_(u"Emulate portlet"),
         description=_(u"If enabled, the timeline is set as unobtrusive as "
@@ -234,10 +234,10 @@ class Assignment(base.Assignment):
     footer = u""
     more_url = ''
 
-    def __init__(self, header = u"", info = u"",  
+    def __init__(self, header = u"", info = u"",
         username = u"", timeline_id = u"", theme = u"", link_color = u"",
         width = u"", height = u"", chrome = None, border_color = u"",
-        lang = u"", tweet_limit = u"", related = u"", aria_polite = True, 
+        lang = u"", tweet_limit = u"", related = u"", aria_polite = True,
         emulate_portlet = False, footer = u"", more_url = ''):
 
         self.header = header
@@ -246,7 +246,7 @@ class Assignment(base.Assignment):
         self.timeline_id = timeline_id
         self.theme = theme
         self.link_color = link_color
-        self.width = width 
+        self.width = width
         self.height = height
         self.chrome = chrome
         self.border_color = border_color
@@ -257,7 +257,7 @@ class Assignment(base.Assignment):
         self.emulate_portlet = emulate_portlet
         self.footer = footer
         self.more_url = more_url
-     
+
     @property
     def title(self):
         """This property is used to give the title of the portlet in the

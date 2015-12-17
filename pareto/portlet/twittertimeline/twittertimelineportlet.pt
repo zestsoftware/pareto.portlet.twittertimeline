@@ -6,7 +6,7 @@
               i18n:domain="pareto.portlet.twittertimeline">
     <dl class="portlet portletTwitterTimeline"
         tal:condition="data/emulate_portlet">
-    
+
         <dt class="portletHeader"
             tal:define="header view/data/header"
             tal:attributes="class python:header and 'portletHeader' or 'portletHeader titleless'">
@@ -21,12 +21,12 @@
             </span>
             <span class="portletTopRight"></span>
         </dt>
-    
+
         <dd class="portletItem odd"
             tal:condition="data_info"
-            tal:content="structure data_info">    
+            tal:content="structure data_info">
         </dd>
-    
+
         <dd class="portletItem even"
             tal:attributes="class python:'portletItem %s' % ('even' if data_info else 'odd',)">
             <a class="twitter-timeline"
@@ -40,7 +40,7 @@
                                data-border-color data/border_color|nothing;
                                lang data/lang|nothing;
                                data-tweet-limit data/tweet_limit|nothing;
-                               data-related data/related|nothing; 
+                               data-related data/related|nothing;
                                data-aria-polite python:None if data_aria_polite else 'assertive';"
                tal:content="string:Tweets by @${data/username}">twitterapi</a>
             <tal:corners condition="not:view/has_footer">
@@ -48,7 +48,7 @@
                 <span class="portletBottomRight"></span>
             </tal:corners>
         </dd>
-        
+
         <dd class="portletFooter" tal:condition="view/has_footer">
             <span class="portletBottomLeft"></span>
             <span>
@@ -78,7 +78,7 @@
                                data-border-color data/border_color|nothing;
                                lang data/lang|nothing;
                                data-tweet-limit data/tweet_limit|nothing;
-                               data-related data/related|nothing; 
+                               data-related data/related|nothing;
                                data-aria-polite python:None if data_aria_polite else 'assertive';"
                tal:content="string:Tweets by @${data/username}">twitterapi</a>
         </p>
