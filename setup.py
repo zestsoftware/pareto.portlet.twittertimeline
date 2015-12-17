@@ -1,23 +1,24 @@
 from setuptools import setup, find_packages
-import os
 
 version = '1.0'
 
 setup(name='pareto.portlet.twittertimeline',
       version=version,
-      description="",
-      long_description=open("README.md").read() + "\n" +
-                       open(os.path.join("docs", "HISTORY.txt")).read(),
+      description="Twitter timeline portlet for Plone",
+      long_description=(open("README.rst").read() + "\n" +
+                        open("CHANGES.rst").read()),
       # Get more strings from
-      # http://pypi.python.org/pypi?:action=list_classifiers
+      # https://pypi.python.org/pypi?:action=list_classifiers
       classifiers=[
-        "Framework :: Plone",
-        "Programming Language :: Python",
-        ],
-      keywords='',
-      author='',
-      author_email='',
-      url='http://svn.plone.org/svn/collective/',
+          "Framework :: Plone",
+          "Framework :: Plone :: 4.3",
+          "Programming Language :: Python",
+          "Programming Language :: Python :: 2.7",
+          ],
+      keywords='diazo theme',
+      author='Pareto and Zest',
+      author_email='info@zestsoftware.nl',
+      url='http://www.zeelandia.com/',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['pareto', 'pareto.portlet'],
@@ -25,7 +26,6 @@ setup(name='pareto.portlet.twittertimeline',
       zip_safe=False,
       install_requires=[
           'setuptools',
-          # -*- Extra requirements: -*-
       ],
       entry_points="""
       # -*- Entry points: -*-

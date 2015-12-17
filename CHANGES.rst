@@ -4,4 +4,8 @@ Changelog
 1.0dev (unreleased)
 -------------------
 
-- Initial release
+- Package cleanup.
+  [maurits]
+
+- Initial code.
+  [thijs]

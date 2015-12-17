@@ -1,9 +1,7 @@
-include *.md
+include *.rst
 include *.py
 
-recursive-include pareto *
-recursive-include docs *
+graft pareto
+graft docs
 
 global-exclude *pyc
-global-exclude .project
-global-exclude .pydevproject
